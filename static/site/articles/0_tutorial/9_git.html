@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.ico">
 
-    <title>{% block title %}devman encyclopedia{% endblock %}</title>
+    <title>
+Гит и Гитхаб
+</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ site_url }}static/css/styles.css">
+    <link rel="stylesheet" href="https://b00bl1k.ru/19_site_generator/static/css/styles.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -22,8 +24,18 @@
       <div class="header clearfix">
         <h3 class="text-muted">Encyclopedia</h3>
       </div>
-      {% block content %}
-      {% endblock %}
+      
+<div class="row marketing">
+  <p><a href="https://b00bl1k.ru/19_site_generator/">&larr; К содержанию</a></p>
+  <hr>
+  <p>Гит – штука для управления кодом. Вместо чтения рекомендую начать с <a href="https://try.github.io">туториала на Гитхабе</a> (en).
+Он займёт 15 минут и даст представление о том, что это за зверь и как им пользоваться.</p>
+<p>Следующий шаг – <a href="https://githowto.com/ru">туториал на githowto.com</a>, он на русском и куда длиннее.</p>
+<p>Гитхаб – это что-то типа Фейсбука для программистов. Код вместо постов, баги вместо котиков. Идиллия.
+Чтобы познакомиться с ним ближе, рекомендую выполнить их <a href="https://guides.github.com/activities/hello-world/">Hello World</a>.
+После можно пройти <a href="https://guides.github.com/">остальные руководства от Гитхаба</a>, это очень полезные навыки для разработчика.</p>
+</div>
+
       <footer class="footer">
         <p>&copy; 2019 devman.</p>
       </footer>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>
+Комментарии
+</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://b00bl1k.ru/19_site_generator/static/css/styles.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="header clearfix">
+        <h3 class="text-muted">Encyclopedia</h3>
+      </div>
+      
+<div class="row marketing">
+  <p><a href="https://b00bl1k.ru/19_site_generator/">&larr; К содержанию</a></p>
+  <hr>
+  <h2>Какие бывают</h2>
+<h3>Обычные комментарии</h3>
+<p>Комментарии – способ прокомментировать код на ходу, на той же строке. </p>
+<pre><code>:::python
+price = Column(BigInteger)  # рубли * 100
+</code></pre>
+<h3>Докстринги</h3>
+<p>Докстринг – строковая переменная, которая идёт сразу за объявлением функции, класса, метода или модуля.
+Она нужна для документирования всей функции: описания входящих параметров, результата, логики, крайних случаев.
+Заключается в тройные двойные кавычки. Вот так:</p>
+<pre><code>:::python
+def tensorsolve(a, b, axes=None):
+    """
+    Solve the tensor equation ``a x = b`` for x.
+    It is assumed that all indices of `x` are summed over in the product,
+    together with the rightmost indices of `a`, as is done in, for example,
+    ``tensordot(a, x, axes=len(b.shape))``.
+    """
+</code></pre>
+<p>В серьёзных проектах из них часто генерируется документация, поэтому они могут быть большими, по несколько экранов.
+Это касается проектов, у которых есть документация для разработчиков: Django, numpy, sqlalchemy.</p>
+<p>Если проект не подразумевает, что им будут пользоваться другие разработчики, такого быть не должно.
+Длинных докстрингов не должно быть в скрипте ресайза изображений, сайте блога или алгоритме обучения нейронной сети.</p>
+<p>Прямо в докстрингах можно писать короткие тесты, их называют доктесты. Ни разу не видел, чтобы кто-то
+это использовал в боевом проекте.</p>
+<h2>Как не использовать</h2>
+<h3>Дублировать информацию из кода</h3>
+<p>Самая частая ошибка, связанная с комментариями: дублирование информации.
+В таком случае комментарий не несёт дополнительной информации, а просто переводит соседний код
+с Питона на русский/английский. Пример:</p>
+<pre><code>:::python
+# загружаем данные из файла data.json
+with open('users.json', 'r') as handler:
+    data = json.load(handler)
+</code></pre>
+<p>Вот как можно исправить:</p>
+<pre><code>:::python
+with open('users.json', 'r') as handler:
+    data = json.load(handler)
+</code></pre>
+<p>А так – ещё лучше:</p>
+<pre><code>:::python
+data = load_all_users_from_file()
+</code></pre>
+<h3>Не сопровождать комментарии</h3>
+<p>Другая частая ошибка: не менять комментарии при изменении кода. В примере выше мы загружали данные из файла. 
+Через месяц взялись за голову и поселили данные в базе данных. Код стал таким:</p>
+<pre><code>:::python
+# загружаем данные из файла data.json
+data = db_session.query(User).all()
+</code></pre>
+<p>Данные из файла? WAT?</p>
+<h3>Думать, что все поймут</h3>
+<p>Когда программист пишет кусок кода, он глубоко в него погружён: держит в голове все детали, связи и особые случаи.
+В таком состоянии всё поведение кажется понятным, поэтому разработчик может оставить комментарий самому себе.
+Проблема в том, что когда он переключится на другую задачу и забудет про детали, комментарий может взорвать мозг:</p>
+<pre><code>:::python
+inv(strain_tensor) - rigidity.T  # правый случай
+</code></pre>
+<p>Правый, правда? Ну, теперь всё понятно.</p>
+<h3>Шутить</h3>
+<p>Шутки к неидеальному коду смотрятся неуместно. Представь, как чувствует себя разработчик, копающийся в чужом
+коде три часа и находящий новый модуль с заглавным комментарием <code>оставь надежду, всяк сюда входящий</code>.
+Не будь автором этого комментария. Лучше наведи порядок в своём коде.</p>
+<h2>Как использовать</h2>
+<p>Вот хорошие причины использовать комментарии:</p>
+<ul>
+<li><em>объяснить неочевидное поведение</em>: бывает, что нужно объяснить какой-нибудь подводный камень куска кода
+  или объяснить поведение в особом случае; использовать только если ту же информацию в коде поселить нельзя или
+  очень сложно;</li>
+<li><em>оставить напоминание себе или коллеге</em>: речь про комментарии вроде <code>TODO: кешировать ответ ручки</code>
+  или <code>FIXME: учитывать часовой пояс</code>.</li>
+</ul>
+<p>Прежде чем написать комментарий, попробуй поселить его в коде, указав параметр или дав подходящее название переменной.</p>
+<h2>Что изучать</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=-SRUctRR_4s">Доклад Григория Петрова про комментирование исходников</a>. Обязателен к просмотру.</li>
+<li><a href="https://www.python.org/dev/peps/pep-0257/">PEP 257</a>. ПЕП про докстринги.</li>
+<li><a href="https://docs.python.org/3.5/library/doctest.html">doctest</a>. Документация к модулю про доктесты.</li>
+<li><a href="http://stackoverflow.com/questions/184618/">What is the best comment in source code you have ever encountered?</a>. Шутить в коде не стоит, а вот посмеяться с чужих шуток можно. Это ж не нам поддерживать.</li>
+</ul>
+</div>
+
+      <footer class="footer">
+        <p>&copy; 2019 devman.</p>
+      </footer>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+  </body>
+</html>

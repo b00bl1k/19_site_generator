@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block content %}
+<div class="row marketing">
+  <p><a href="{{ site_url }}">&larr; К содержанию</a></p>
+  <hr>
+  {{ content|safe }}
+</div>
+{% endblock %}

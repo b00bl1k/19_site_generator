@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>
+Основные конструкции
+</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://b00bl1k.ru/19_site_generator/static/css/styles.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="header clearfix">
+        <h3 class="text-muted">Encyclopedia</h3>
+      </div>
+      
+<div class="row marketing">
+  <p><a href="https://b00bl1k.ru/19_site_generator/">&larr; К содержанию</a></p>
+  <hr>
+  <h3>Коротко о главных управляющих конструкциях</h3>
+<p>Сейчас мы совсем реактивно пройдёмся по самым основным управляющим конструкциям. Гет реди.</p>
+<h3>if</h3>
+<p>Ну, вы все знаете условный оператор, так ведь?</p>
+<pre><code>:::python
+if age &lt; 18:
+    print('Никаких тебе сигарет. Ишь чего удумал!')
+else:
+    print('Вам синий или красный?')
+</code></pre>
+<p>Есть ещё <code>elif</code>, их можно сделать много в одном операторе. Это такой аналог <code>which</code> из других языков.</p>
+<h3>for</h3>
+<p>Цикл. Вместо сишного варианта с init, cond и loop выражениями, тут просто итерация по коллекции:</p>
+<pre><code>:::python
+for user in users:
+    print user
+</code></pre>
+<p>Иногда надо не пройтись по списку, а выполнить одну и ту же операцию много раз. Тогда хорошо подходит функция
+<a href="https://docs.python.org/3.5/library/functions.html#func-range">range</a>. Она возвращает целые числа в заданном промежутке,
+поэтому в цикле её можно использовать так:</p>
+<pre><code>:::python
+for level_num in range(10):
+    user.levelup()  # пользователь получит десять уровней. Читер!
+</code></pre>
+<p>А вот <code>break</code> и <code>continue</code> делают то же, что в Паскале и Сях. <code>break</code> прерывает выполнение цикла,
+<code>continue</code> завершает текущую итерацию и переходит к следующей.</p>
+<p>Ещё у цикла есть <code>else</code>, но про него почти никто не знает. Как он работает можно посмотреть
+<a href="https://docs.python.org/3.5/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops">в официальной документации</a>.</p>
+<h3>def</h3>
+<p>Начало объявления функции. После него идёт название,
+потом – аргументы функции в скобках, двоеточие и тело функции с отступом:</p>
+<pre><code>:::python
+def get_square(value):
+    return value ** 2
+</code></pre>
+<p>То, что после <code>return</code> – это возвращаемое значение функции.</p>
+<p>Функцию создали, вот как её теперь использовать:</p>
+<pre><code>:::python
+print(get_square(2))  # 4
+print(get_square(6))  # 36
+print(get_square('ыыы'))  # всё сломается
+</code></pre>
+<p>А вот пример посложнее, из исходников Девмана. Получает пользователя по айди в Слаке:</p>
+<pre><code>:::python
+def _get_user_by_slack_id(slack_user_id):
+    user_email = get_slack_email_for_user(slack_user_id)
+    return User.objects.filter(email__iexact=user_email).first()
+</code></pre>
+<p>(вот почему емейл необходим)</p>
+<h3>range</h3>
+<p>Функция очень полезная, поэтому про неё отдельно. <code>range</code> генерирует целые числа в заданном диапазоне. Например:</p>
+<pre><code>:::python
+range(10)  # 0..0
+range(5, 10)  # 5..9
+range(5, 10, 2)  # [5, 7, 9] (от пяти до девяти с шагом два)
+</code></pre>
+<p>Фишка этой функции заключается в том, что она не создаёт список со всеми числами.
+Вместо этого он вернёт объект, который будет возвращать элементы как только они нужны, по одному.
+Поэтому код <code>range(9999999999999)</code> не съест всю память.
+Этот хитрый объект (Sequence ABC, но об этом потом) можно превратить в список явно:</p>
+<pre><code>:::python
+list(range(9999999999999))
+</code></pre>
+<p>(не советую так делать)</p>
+<h3>pass</h3>
+<p>Блок, который ничего не делает:</p>
+<pre><code>:::python
+for i in range(20):
+    pass  # 20 раз сделать ничего. Очень полезно!
+</code></pre>
+<p>Часто используется в начальном коде для заданий: в финальной версии вместо <code>pass</code> должен быть настоящий код.</p>
+</div>
+
+      <footer class="footer">
+        <p>&copy; 2019 devman.</p>
+      </footer>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+  </body>
+</html>
