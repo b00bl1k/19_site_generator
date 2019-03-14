@@ -1,6 +1,18 @@
 # Encyclopedia
 
-[TODO. There will be project description]
+The static site generator. [View example site](https://b00bl1k.ru/19_site_generator/).
+
+# Setup
+
+```bash
+$ pip install -r requirements.txt
+```
+
+# Usage
+
+```bash
+$ python generator.py [serve [--port]]
+```
 
 # Project Goals
 

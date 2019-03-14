@@ -1,8 +1,9 @@
 import os
-import sys
 import json
 import urllib
 import markdown
+import argparse
+from livereload import Server
 from jinja2 import Environment, FileSystemLoader
 
 ARTICLES_DIR = "articles"
@@ -64,7 +65,9 @@ def generate_article(template, article):
     })
 
 
-def make_site(config):
+def make_site():
+    config = load_config()
+    fill_urls_in_config(config)
     env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
 
     index_template = env.get_template("index.html")
@@ -78,15 +81,20 @@ def make_site(config):
 
 
 def main():
-    try:
-        config = load_config()
-    except FileNotFoundError:
-        sys.exit("Configuration file not found")
-    except json.JSONDecodeError:
-        sys.exit("Invalid configuration")
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="subparser")
+    serve_parser = subparsers.add_parser("serve")
+    serve_parser.add_argument("-p", "--port", type=int, default=8000)
+    args = parser.parse_args()
 
-    fill_urls_in_config(config)
-    make_site(config)
+    make_site()
+
+    if args.subparser == "serve":
+        server = Server()
+        server.watch("{}/*/*.md".format(ARTICLES_DIR), make_site)
+        server.watch("config.json", make_site)
+        server.watch("templates", make_site)
+        server.serve(port=args.port, root=".")
 
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row marketing">
-  <h3>Содержание</h3>
+  <h1>Содержание</h1>
   {% for topic in index %}
   <div class="col-lg-12">
-    <h4>{{ topic.title }}</h4>
+    <h2>{{ topic.title }}</h2>
     <ul>
     {% for article in topic.articles %}
       <li><a href="{{ site_url }}{{ article.url }}">{{ article.title }}</a></li>
