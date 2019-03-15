@@ -39,6 +39,8 @@ def fill_urls_in_config(config):
         config["articles"][article_idx]["output"] = url
         config["articles"][article_idx]["url"] = urllib.parse.quote(url)
 
+    return config
+
 
 def generate_index(template, config):
     index = []
@@ -67,7 +69,7 @@ def generate_article(template, article):
 
 def make_site():
     config = load_config()
-    fill_urls_in_config(config)
+    config = fill_urls_in_config(config)
     env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
 
     index_template = env.get_template("index.html")
