@@ -30,16 +30,15 @@ def save_to_file(filepath, content):
         fh.write(content)
 
 
-def fill_urls_in_config(config):
-    for article_idx in range(len(config["articles"])):
-        path_md = config["articles"][article_idx]["source"]
-        (base_path, _) = os.path.splitext(path_md)
-        path_html = "{}{}{}".format(base_path, os.path.extsep, "html")
-        url = "{}/{}/{}".format(OUTPUT_DIR, ARTICLES_DIR, path_html)
-        config["articles"][article_idx]["output"] = url
-        config["articles"][article_idx]["url"] = urllib.parse.quote(url)
+def get_article_output_path(source_path):
+    (base_path, _) = os.path.splitext(source_path)
+    path_html = "{}{}{}".format(base_path, os.path.extsep, "html")
+    return "{}/{}/{}".format(OUTPUT_DIR, ARTICLES_DIR, path_html)
 
-    return config
+
+def get_article_url(source_path):
+    output_path = get_article_output_path(source_path)
+    return urllib.parse.quote(output_path)
 
 
 def generate_index(template, config):
@@ -69,7 +68,10 @@ def generate_article(template, article):
 
 def make_site():
     config = load_config()
-    config = fill_urls_in_config(config)
+
+    for article in config["articles"]:
+        article["url"] = get_article_url(article["source"])
+
     env = Environment(loader=FileSystemLoader("templates"), autoescape=True)
 
     index_template = env.get_template("index.html")
@@ -79,7 +81,8 @@ def make_site():
     article_template = env.get_template("article.html")
     for article in config["articles"]:
         article_content = generate_article(article_template, article)
-        save_to_file(article["output"], article_content)
+        output_path = get_article_output_path(article["source"])
+        save_to_file(output_path, article_content)
 
 
 def main():
